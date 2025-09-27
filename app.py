@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 import streamlit as st
 from groq import Groq
 from e2b_code_interpreter import Sandbox  # optional, if you want to run code
