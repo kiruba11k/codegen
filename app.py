@@ -23,7 +23,7 @@ mode = st.sidebar.radio("Mode", ["Analyze / Text", "Code Generation"])
 
 # Common parameters
 with st.sidebar.expander("Model / Parameters"):
-    model = st.text_input("Groq model name", value="qwen-2.5-coder-32b")
+    model = st.text_input("Groq model name", value="llama-3.3-70b-versatile")
     temperature = st.slider("Temperature", 0.0, 1.0, 0.2)
     max_tokens = st.number_input("Max completion tokens", min_value=32, max_value=2048, value=512, step=32)
     # You can add more parameters like top_p, stop sequences, etc.
