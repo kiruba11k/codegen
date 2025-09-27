@@ -34,7 +34,7 @@ def groq_chat_completion(messages, stream=False):
         model=model,
         messages=messages,
         temperature=temperature,
-        max_completion_tokens=max_tokens,
+        max_tokens=max_tokens,
         stream=stream,
     )
     return resp
