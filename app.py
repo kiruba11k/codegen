@@ -70,7 +70,7 @@ if mode == "Analyze / Text":
 elif mode == "Code Generation":
     st.subheader("Code Generation from Description")
     desc = st.text_area("Enter the problem / specification you want code for", height=200)
-    language = st.selectbox("Programming language", ["python", "javascript", "sql", "r", "bash"])
+    language = st.selectbox("Programming language", ["python", "javascript", "sql", "r", "bash", "kotlin"])
     run_code = st.checkbox("Execute code (in sandbox)", value=False)
 
     if st.button("Generate Code"):
@@ -80,17 +80,24 @@ elif mode == "Code Generation":
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ]
+
         with st.spinner("Generating code via Groq..."):
             resp = groq_chat_completion(messages, stream=False)
         code = resp.choices[0].message.content
+
         st.markdown("**Generated Code:**")
         st.code(code, language=language)
 
         if run_code:
+            import re
+            def clean_code_block(c: str) -> str:
+                return re.sub(r"```[a-zA-Z]*\n?|```", "", c).strip()
+
             st.markdown("**Execution Output (sandbox):**")
             try:
                 sbx = Sandbox()
-                output = sbx.run(code, language=language)
+                safe_code = clean_code_block(code)
+                output = sbx.run(safe_code, language=language)
                 st.write(output)
             except Exception as e:
                 st.error(f"Error running code: {e}")
